@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <style>
+
+            html, body {
+        
+             margin: 0;
+             padding: 0;
+             overflow: hidden;
+             height:100%;
+             }
+        
+             canvas {
+                 display:block;
+                 width:100%;
+                 height:100%;
+             }
+         </style>
+    </head>
+
+    <body>
+        <canvas id="canvas"></canvas>
+        <span id="color-hex" style="position: absolute; bottom: 100; right: 60 ;  visibility:hidden;">color:</span>
+        <form id="gradient" style="position: absolute; bottom: 0; right: 0 ; visibility:hidden; ">
+            <fieldset>
+              <legend>Gradient mode</legend>
+              <div>
+                <input type="radio" id="Linear" name="gradient" value="Linear"  checked="checked"/>
+                <label for="Linear">Linear</label>
+          
+                <input type="radio" id="Radial" name="gradient" value="Radial" />
+                <label for="contactChoice2">Radial</label>
+              </div>
+            </fieldset>
+          </form>
+
+    </body>
+
+    
+</html>
+
