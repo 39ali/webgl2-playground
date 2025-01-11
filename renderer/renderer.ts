@@ -9,6 +9,7 @@ export class Renderer {
   canvas: HTMLCanvasElement;
   mat: Material;
   elements_count: number;
+  vao: WebGLVertexArrayObject;
   dim_buffer: WebGLBuffer;
   colors_buffer: WebGLBuffer;
   stroke_color_buffer: WebGLBuffer;
@@ -81,16 +82,16 @@ export class Renderer {
     this.mat.prepare(this);
     this.mat.update_uniform(this, cam);
 
-    this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.dim_buffer);
-    this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.colors_buffer);
-    this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.stroke_color_buffer);
-    this.ctx.bindBuffer(this.ctx.ARRAY_BUFFER, this.shape_info_buffer);
+    this.ctx.bindVertexArray(this.vao);
 
     this.ctx.drawArraysInstanced(this.ctx.TRIANGLES, 0, 6, this.elements_count);
   }
 
   init_buffers(elements: (Rectangle | Triangle)[]) {
     const ctx = this.ctx;
+
+    this.vao = ctx.createVertexArray();
+    ctx.bindVertexArray(this.vao);
 
     const num_instances = elements.length;
     const dims = new Float32Array(num_instances * 4);
@@ -172,6 +173,8 @@ export class Renderer {
     ctx.vertexAttribPointer(shape_info_loc, 3, ctx.FLOAT, false, 4 * 3, 0);
     ctx.enableVertexAttribArray(shape_info_loc);
     ctx.vertexAttribDivisor(shape_info_loc, 1);
+
+    ctx.bindVertexArray(null);
   }
   add_elements(elements: (Rectangle | Triangle)[]) {
     this.init_buffers(elements);
